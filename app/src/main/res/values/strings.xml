@@ -1,0 +1,25 @@
+<resources>
+	<string name="app_name">TinyDash Calendar</string>
+
+	<string name="pref_key_display_first_big">pref_key_display_first_big</string>
+	<string name="pref_key_enabled_calendars">pref_key_enabled_calendars</string>
+	<string name="pref_key_time_span">pref_key_time_span</string>
+
+	<string name="settings_category_display">Style</string>
+	<string name="settings_display_first_big_summary">Display the first calendar entry with a bigger font</string>
+	<string name="settings_display_first_big_title">First entry big font</string>
+
+	<string name="settings_category_calendars">Calendar</string>
+	<string name="title_enabled_calendars">Visible Calendars</string>
+	<string name="summary_enabled_calendars">Select the calendars that should be displayed in the widget</string>
+
+	<string name="text_button_dialog_negative">Cancel</string>
+	<string name="text_button_dialog_positive">OK</string>
+	<string name="configure_widget">Configure widget</string>
+	<string name="time_span_24_hours">24 hours</string>
+	<string name="time_span_3_days">3 days</string>
+	<string name="time_span_7_days">7 days</string>
+	<string name="title_time_span">Time period</string>
+	<string name="summary_time_span">Select the time to look for calendar events</string>
+	<string name="calendar_permission_not_granted">Calendar permission not granted yet</string>
+</resources>

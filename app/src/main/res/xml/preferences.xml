@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_height="match_parent"
+		android:layout_width="match_parent"
+>
+	<PreferenceCategory
+			android:title="@string/settings_category_calendars"
+			android:key="pref_key_widget_settings">
+
+		<Preference
+				android:title="@string/title_enabled_calendars"
+				android:key="@string/pref_key_enabled_calendars"
+				android:summary="@string/summary_enabled_calendars"
+		/>
+		<Preference
+				android:title="@string/title_time_span"
+				android:key="@string/pref_key_time_span"
+				android:summary="@string/summary_time_span"
+		/>
+	</PreferenceCategory>
+
+	<PreferenceCategory
+			android:title="@string/settings_category_display"
+			android:key="pref_key_app_permissions">
+		<CheckBoxPreference
+				android:key="@string/pref_key_display_first_big"
+				android:summary="@string/settings_display_first_big_summary"
+				android:title="@string/settings_display_first_big_title"
+				android:defaultValue="true"/>
+	</PreferenceCategory>
+
+
+</PreferenceScreen>
