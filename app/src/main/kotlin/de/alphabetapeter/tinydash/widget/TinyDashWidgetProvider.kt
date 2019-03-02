@@ -13,10 +13,11 @@ import de.alphabetapeter.tinydash.R
 
 abstract class TinyDashWidgetProvider : AppWidgetProvider() {
 
-	val DEBUG_TAG: String = TinyDashWidgetProvider::class.java.simpleName
+
 
 	companion object {
-		val ACTION_APPWIDGET_UPDATE = "de.alphabetapeter.tinydash.action.APPWIDGET_UPDATE"
+		private const val ACTION_APPWIDGET_UPDATE = "de.alphabetapeter.tinydash.action.APPWIDGET_UPDATE"
+		private val DEBUG_TAG: String = TinyDashWidgetProvider::class.java.simpleName
 		fun updateWidget(context: Context) {
 			val widgetManager = AppWidgetManager.getInstance(context)
 			val widgetComponent = ComponentName(context, TinyDashWidgetProvider::class.java)

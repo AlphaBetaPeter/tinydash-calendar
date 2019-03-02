@@ -10,11 +10,11 @@ class WidgetPrefs {
 	companion object {
 		val DEBUG_TAG: String = WidgetPrefs::class.java.simpleName
 
-		fun getWidgetCalendarIds(context: Context, widgetId: Int): Set<String> {
+		fun getWidgetCalendarIds(context: Context, widgetId: Int): MutableSet<String>? {
 			return sharedPreferences(context)
 					.getStringSet(
 							keyEnabledCalendars(context, widgetId),
-							hashSetOf()
+							setOf()
 					)
 		}
 
@@ -46,28 +46,6 @@ class WidgetPrefs {
 					.apply()
 		}
 
-		fun setWidgetTimeSpan(context: Context, widgetId: Int, timeSpanMillis: Long) {
-			sharedPreferences(context)
-					.edit()
-					.putLong(
-							keyTimeSpan(context, widgetId),
-							timeSpanMillis
-					)
-					.apply()
-		}
-
-		fun getWidgetTimeSpan(context: Context, widgetId: Int): Long {
-			return sharedPreferences(context)
-					.getLong(
-							keyTimeSpan(context, widgetId),
-							1000 * 60 * 60 * 24
-					)
-		}
-
-		private fun keyTimeSpan(context: Context, widgetId: Int): String {
-			return prefKeyWithWidgetId(context.getString(R.string.pref_key_time_span), widgetId)
-		}
-
 		private fun keyEnabledCalendars(context: Context, widgetId: Int): String {
 			return prefKeyWithWidgetId(context.getString(R.string.pref_key_enabled_calendars), widgetId)
 		}
@@ -80,7 +58,7 @@ class WidgetPrefs {
 			return "${key}_widget_$widgetId"
 		}
 
-		fun sharedPreferences(context: Context): SharedPreferences {
+		private fun sharedPreferences(context: Context): SharedPreferences {
 			return PreferenceManager.getDefaultSharedPreferences(context)
 		}
 	}

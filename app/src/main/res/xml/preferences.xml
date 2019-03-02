@@ -13,11 +13,6 @@
 				android:key="@string/pref_key_enabled_calendars"
 				android:summary="@string/summary_enabled_calendars"
 		/>
-		<Preference
-				android:title="@string/title_time_span"
-				android:key="@string/pref_key_time_span"
-				android:summary="@string/summary_time_span"
-		/>
 	</PreferenceCategory>
 
 	<PreferenceCategory

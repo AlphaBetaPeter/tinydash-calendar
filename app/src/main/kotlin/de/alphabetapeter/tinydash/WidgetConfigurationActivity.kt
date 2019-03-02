@@ -18,11 +18,11 @@ class WidgetConfigurationActivity : AppCompatActivity() {
 		this.supportActionBar!!.setHomeAsUpIndicator(R.mipmap.ic_done_white_24dp)
 		this.supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 		if (intent.extras != null) {
-			appWidgetId = intent.extras.getInt(
+			appWidgetId = intent.extras!!.getInt(
 					AppWidgetManager.EXTRA_APPWIDGET_ID,
 					AppWidgetManager.INVALID_APPWIDGET_ID)
 		}
-		fragmentManager.beginTransaction()
+		supportFragmentManager.beginTransaction()
 				.replace(android.R.id.content, SettingsFragment(appWidgetId))
 				.commit()
 	}

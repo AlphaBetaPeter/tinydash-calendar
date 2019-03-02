@@ -15,12 +15,12 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class DeviceCalendarProvider(val context: Context) {
+class DeviceCalendarProvider(private val context: Context) {
 
-	val contentResolver : ContentResolver = context.contentResolver
+	private val contentResolver : ContentResolver = context.contentResolver
 
 	companion object {
-		val PERMISSIONS_REQUEST_READ_CALENDAR: Int = 682
+		const val PERMISSIONS_REQUEST_READ_CALENDAR: Int = 682
 	}
 
 	data class Calendar(val id: Long, val name: String, val color: Int)
@@ -29,8 +29,7 @@ class DeviceCalendarProvider(val context: Context) {
 	fun hasPermission() :Boolean {
 		val permissionCheck = ContextCompat.checkSelfPermission(context,
 				Manifest.permission.READ_CALENDAR)
-		val granted = permissionCheck == PackageManager.PERMISSION_GRANTED
-		return granted
+		return permissionCheck == PackageManager.PERMISSION_GRANTED
 	}
 
 	fun requestPermission(activity: Activity, requestCode: Int) {
@@ -50,7 +49,7 @@ class DeviceCalendarProvider(val context: Context) {
 				Calendars.VISIBLE + " = 1",
 				null,
 				Calendars._ID + " ASC")
-		while (visibleCalendars.moveToNext()) {
+		while (visibleCalendars!!.moveToNext()) {
 			val calendarId = visibleCalendars.getLong(0)
 			val displayName = visibleCalendars.getString(1)
 			val color = visibleCalendars.getInt(2)
@@ -58,32 +57,20 @@ class DeviceCalendarProvider(val context: Context) {
 		}
 		visibleCalendars.close()
 
-		val calendars : List<Calendar> = calendarsMutable
-		return calendars
+		return calendarsMutable
 	}
 
 	fun colorForCalendarId(id: Long): Int {
-		return getVisibleCalendars().filter { it.id == id }.first().color
-	}
-
-	fun getStartTimeMillis(): Long{
-		val startTime = System.currentTimeMillis()
-		Log.d("asda", formatEventTime(startTime))
-		return startTime
-	}
-
-	fun getEndTimeMillis(widgetId: Int): Long {
-		val endTime = System.currentTimeMillis() + WidgetPrefs.getWidgetTimeSpan(context, widgetId)
-		Log.d("das", formatEventTime(endTime))
-		return endTime
+		return getVisibleCalendars().first { it.id == id }.color
 	}
 
 	fun getEventsForToday(widgetId: Int) : List<Event>{
 		val events = mutableListOf<Event>()
 
-		val enabledCalendarIds = WidgetPrefs.getWidgetCalendarIds(context, widgetId)
+		val enabledCalendarIds = WidgetPrefs.getWidgetCalendarIds(context, widgetId)!!
 				.joinToString(", ")
-		Log.d("dasd", enabledCalendarIds)
+		Log.d("enabledCalendarIds", enabledCalendarIds)
+		val endTime = Long.MAX_VALUE
 		val selectorProjection = arrayOf(
 				EventsEntity._ID,
 				EventsEntity.TITLE,
@@ -91,8 +78,8 @@ class DeviceCalendarProvider(val context: Context) {
 				EventsEntity.CALENDAR_ID
 		)
 		val query = "${EventsEntity.CALENDAR_ID} IN ($enabledCalendarIds) " +
-				"AND ${EventsEntity.DTSTART} > ${getStartTimeMillis()} " +
-				"AND ${EventsEntity.DTEND} < ${getEndTimeMillis(widgetId)}"
+				"AND ${EventsEntity.DTSTART} > ${System.currentTimeMillis()} " +
+				"AND ${EventsEntity.DTEND} < $endTime"
 		val calendarEntries = contentResolver.query(
 				EventsEntity.CONTENT_URI,
 				selectorProjection,
@@ -100,7 +87,7 @@ class DeviceCalendarProvider(val context: Context) {
 				null,
 				null
 		)
-		while(calendarEntries.moveToNext()){
+		while(calendarEntries!!.moveToNext()){
 			val eventId = calendarEntries.getLong(0)
 			val eventTitle = calendarEntries.getString(1)
 			val eventTime = calendarEntries.getLong(2)
@@ -111,14 +98,9 @@ class DeviceCalendarProvider(val context: Context) {
 		return events
 	}
 
-	private fun formatEventTime(time: Long): String? {
-		val dateFormat = SimpleDateFormat("EEEE d MMM HH:mm", Locale.UK)
-		return dateFormat.format(time)
-	}
-
 	fun getRecurringEvents(widgetId: Int): List<Event> {
-		val startTime = getStartTimeMillis()
-		val endTime = getEndTimeMillis(widgetId)
+		val startTime = System.currentTimeMillis()
+		val endTime = Long.MAX_VALUE
 		val events = mutableListOf<Event>()
 		val selectorProjection = arrayOf(
 				Instances.EVENT_ID,
@@ -130,18 +112,18 @@ class DeviceCalendarProvider(val context: Context) {
 		ContentUris.appendId(builder, startTime)
 		ContentUris.appendId(builder, endTime)
 
-		val enabledCalendarIds = WidgetPrefs.getWidgetCalendarIds(context, widgetId).joinToString(", ")
-		Log.d("dasd", enabledCalendarIds)
+		val enabledCalendarIds = WidgetPrefs.getWidgetCalendarIds(context, widgetId)!!.joinToString(", ")
+		Log.d("enabledCalendarIds", enabledCalendarIds)
 		val query = "${Instances.CALENDAR_ID} IN ($enabledCalendarIds) " +
-				"AND ${Instances.BEGIN} > ${getStartTimeMillis()} " +
-				"AND ${Instances.END} < ${getEndTimeMillis(widgetId)}"
+				"AND ${Instances.BEGIN} > $startTime " +
+				"AND ${Instances.END} < $endTime"
 
 		val calendarEntries = contentResolver.query(
 				builder.build(),
 				selectorProjection,
 				query, null, null
 		)
-		while(calendarEntries.moveToNext()){
+		while(calendarEntries!!.moveToNext()){
 			val eventId = calendarEntries.getLong(0)
 			val eventTitle = calendarEntries.getString(1)
 			val eventTime = calendarEntries.getLong(2)

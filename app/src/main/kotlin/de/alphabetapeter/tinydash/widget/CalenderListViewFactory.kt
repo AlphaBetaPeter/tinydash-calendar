@@ -17,14 +17,16 @@ class CalenderListViewFactory(private val context: Context, intent: Intent) : Re
 
 	private var appWidgetId: Int = 0
 	private val calendar = DeviceCalendarProvider(context)
-	private val TIME_FORMAT_DAY_TIME_24H = "EEEE d MMM HH:mm"
-	private val TIME_FORMAT_DAY_TIME_12H = "EEEE d MMM hh:mm"
-	private val TIME_FORMAT_TIME_24H = "HH:mm"
+
 	private var calendarEntries: List<DeviceCalendarProvider.Event>? = null
+
+	companion object {
+		private const val TIME_FORMAT_DAY_TIME_24H = "EEEE d MMM HH:mm"
+	}
 
 	init {
 		if (intent.extras != null) {
-			appWidgetId = intent.extras.getInt(
+			appWidgetId = intent.extras!!.getInt(
 					AppWidgetManager.EXTRA_APPWIDGET_ID,
 					AppWidgetManager.INVALID_APPWIDGET_ID
 			)
@@ -66,20 +68,20 @@ class CalenderListViewFactory(private val context: Context, intent: Intent) : Re
 	override fun getViewAt(position: Int): RemoteViews? {
 		val entries = calendarEntries!!.toTypedArray()
 		val entry = entries[position]
-		if(showFirstItemBig()){
+		return if(showFirstItemBig()){
 			when (position) {
-				0 -> return buildTodayRowView(entry)
-				else -> return buildRegularRowView(entry)
+				0 -> buildTodayRowView(entry)
+				else -> buildRegularRowView(entry)
 			}
 		} else {
 			when (position) {
-				0 -> return buildTodayRowViewRegularSize(entry)
-				else -> return buildRegularRowView(entry)
+				0 -> buildTodayRowViewRegularSize(entry)
+				else -> buildRegularRowView(entry)
 			}
 		}
 	}
 
-	fun showFirstItemBig() : Boolean {
+	private fun showFirstItemBig() : Boolean {
 		return WidgetPrefs.getWidgetFirstItemBig(context, appWidgetId)
 	}
 
@@ -92,7 +94,7 @@ class CalenderListViewFactory(private val context: Context, intent: Intent) : Re
 
 	private fun buildRegularRowView(entry: DeviceCalendarProvider.Event): RemoteViews {
 		val row = RemoteViews(context.packageName, R.layout.calendar_row)
-		row.setTextViewText(R.id.calendar_row_time, formatEventTime(entry))
+		row.setTextViewText(R.id.calendar_row_time, formatEventDayAndTime(entry))
 		row.setTextViewText(R.id.calendar_row_text, entry.title)
 		return row
 	}
@@ -109,12 +111,7 @@ class CalenderListViewFactory(private val context: Context, intent: Intent) : Re
 		return dateFormat.format(entry.time)
 	}
 
-	private fun formatEventTime(entry: DeviceCalendarProvider.Event): String? {
-		val dateFormat = SimpleDateFormat(TIME_FORMAT_TIME_24H, Locale.UK)
-		return dateFormat.format(entry.time)
-	}
-
-	fun loadCalendarEntries() {
+	private fun loadCalendarEntries() {
 		if(!calendar.hasPermission()){
 			Toast.makeText(
 					context,
@@ -124,10 +121,8 @@ class CalenderListViewFactory(private val context: Context, intent: Intent) : Re
 		}
 		calendarEntries = calendar.getEventsForToday(appWidgetId)
 				.plus(calendar.getRecurringEvents(appWidgetId))
-				.sortedWith(compareBy({ it.time }))
+				.sortedWith(compareBy { it.time })
 				.distinctBy { it.id }
-		Log.d("asda", "events")
-		calendarEntries!!.forEach { Log.d("asda", it.toString()) }
 	}
 
 }
