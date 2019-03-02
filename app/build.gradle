@@ -7,9 +7,10 @@ android {
         applicationId "de.alphabetapeter.tinydash"
         minSdkVersion 23
         targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
+        versionCode 3
+        versionName "1.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        signingConfig signingConfigs.signing
     }
     buildTypes {
         release {
@@ -20,10 +21,13 @@ android {
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
+    productFlavors {
+    }
+    buildToolsVersion '28.0.3'
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     androidTestImplementation('com.android.support.test.espresso:espresso-core:3.0.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
