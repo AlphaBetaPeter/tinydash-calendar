@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+					android:initialLayout="@layout/widget_layout_month"
+					android:minHeight="110dp"
+					android:minResizeHeight="40dp"
+					android:minResizeWidth="40dp"
+					android:minWidth="110dp"
+					android:configure="de.alphabetapeter.tinydash.WidgetConfigurationActivity"
+					android:updatePeriodMillis="180000"
+/>

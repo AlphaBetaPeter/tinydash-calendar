@@ -22,7 +22,7 @@
 			  android:layout_height="wrap_content"
 			  android:gravity="center_vertical"
 			  android:textColor="@android:color/white"
-			  android:textSize="32sp"
+			  android:textSize="24sp"
 			  android:ellipsize="end"
 			  android:maxLines="1"
 			  android:paddingStart="4dip"
