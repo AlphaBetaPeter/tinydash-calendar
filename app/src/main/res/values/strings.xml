@@ -22,4 +22,5 @@
 	<string name="title_time_span">Time period</string>
 	<string name="summary_time_span">Select the time to look for calendar events</string>
 	<string name="calendar_permission_not_granted">Calendar permission not granted yet</string>
+    <string name="main_activity_welcome">You can now add a TinyDash widget to your home screen!</string>
 </resources>

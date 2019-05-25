@@ -1,17 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-			  xmlns:app="http://schemas.android.com/apk/res-auto" android:orientation="vertical"
-			  android:layout_width="match_parent"
-			  android:layout_height="match_parent" android:weightSum="1" android:layout_marginTop="30dp">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="30dp"
+    android:orientation="vertical"
+    android:weightSum="1">
 
-	<ImageView
-			android:layout_width="match_parent"
-			android:layout_height="97dp" android:id="@+id/imageView"
-			android:layout_weight="0.33" android:layout_marginTop="20dp" app:srcCompat="@drawable/web_hi_res_512"/>
-	<TextView
-			android:text="You can now add a widget to your homescreen!"
-			android:layout_width="match_parent"
-			android:layout_height="169dp" android:id="@+id/textView"
-			android:textAppearance="@android:style/TextAppearance.Material.Large" android:fontFamily="sans-serif"
-			android:textAlignment="center" android:textSize="14sp" android:gravity="center_vertical"/>
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="97dp"
+        android:layout_marginTop="20dp"
+        android:layout_weight="0.33"
+        app:srcCompat="@drawable/web_hi_res_512" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="169dp"
+        android:fontFamily="sans-serif"
+        android:gravity="center_vertical"
+        android:text="@string/main_activity_welcome"
+        android:textAlignment="center"
+        android:layout_margin="10dp"
+        android:textAppearance="@android:style/TextAppearance.Material.Large"
+        android:textSize="20sp" />
 </LinearLayout>

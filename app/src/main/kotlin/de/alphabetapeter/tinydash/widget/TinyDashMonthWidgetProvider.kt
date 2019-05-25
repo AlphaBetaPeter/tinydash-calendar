@@ -11,7 +11,7 @@ import android.util.Log
 import android.widget.RemoteViews
 import de.alphabetapeter.tinydash.R
 
-class TinyDashMonthWidgetProvider : AppWidgetProvider() {
+abstract class TinyDashMonthWidgetProvider : AppWidgetProvider() {
 
 
 

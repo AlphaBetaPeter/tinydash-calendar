@@ -10,10 +10,16 @@ import de.alphabetapeter.tinydash.widget.TinyDashWidgetProvider
 import de.alphabetapeter.tinydash.widget.WidgetPrefs
 
 
-class SettingsFragment(val appWidgetId: Int) : PreferenceFragmentCompat(), SharedPreferences.OnSharedPreferenceChangeListener {
+class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPreferenceChangeListener {
 
+    companion object {
+        const val BUNDLE_WIDGET_ID = "WIDGET_ID"
+    }
 
-    override fun onCreatePreferences(savedInstanceState: Bundle?, p1: String?) {
+    private var appWidgetId: Int = 0
+
+        override fun onCreatePreferences(savedInstanceState: Bundle?, p1: String?) {
+        appWidgetId = arguments!!.getInt(BUNDLE_WIDGET_ID)
         addPreferencesFromResource(R.xml.preferences)
         bindClickListeners()
         reloadCalendarPermission()

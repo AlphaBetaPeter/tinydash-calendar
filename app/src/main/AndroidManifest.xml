@@ -30,9 +30,9 @@
         </activity>
 
         <receiver
-            android:name=".widget.TinyDashWidgetProvider_42"
+            android:name=".widget.TinyDashWidgetProvider42"
             android:icon="@mipmap/ic_launcher"
-            android:label="TinyDash Calendar 4 x 2"
+            android:label="TinyDash List"
             android:permission="android.permission.BIND_REMOTEVIEWS">
             <intent-filter>
                 <action android:name="de.alphabetapeter.tinydash.action.APPWIDGET_UPDATE" />
@@ -45,9 +45,9 @@
         </receiver>
 
         <receiver
-            android:name=".widget.TinyDashWidgetProvider_22"
+            android:name=".widget.TinyDashWidgetProvider22"
             android:icon="@mipmap/ic_launcher"
-            android:label="TinyDash Calendar 2 x 2"
+            android:label="TinyDash List"
             android:permission="android.permission.BIND_REMOTEVIEWS">
             <intent-filter>
                 <action android:name="de.alphabetapeter.tinydash.action.APPWIDGET_UPDATE" />
@@ -60,9 +60,24 @@
         </receiver>
 
         <receiver
-            android:name=".widget.TinyDashMonthWidgetProvider"
+            android:name=".widget.TinyDashMonthWidgetProvider34"
             android:icon="@mipmap/ic_launcher"
-            android:label="TinyDash Calendar Month"
+            android:label="TinyDash Month"
+            android:permission="android.permission.BIND_REMOTEVIEWS">
+            <intent-filter>
+                <action android:name="de.alphabetapeter.tinydash.action.APPWIDGET_UPDATE" />
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_info_3_4" />
+        </receiver>
+
+        <receiver
+            android:name=".widget.TinyDashMonthWidgetProvider22"
+            android:icon="@mipmap/ic_launcher"
+            android:label="TinyDash Month"
             android:permission="android.permission.BIND_REMOTEVIEWS">
             <intent-filter>
                 <action android:name="de.alphabetapeter.tinydash.action.APPWIDGET_UPDATE" />
