@@ -24,6 +24,7 @@ class CalenderMonthListViewFactory(private val context: Context, intent: Intent)
         private const val TIME_FORMAT_DAY_TIME_24H = "EEEE d MMM HH:mm"
         private const val TIME_FORMAT_DAY_OF_MONTH_SHORT = "EEE d."
         private const val TIME_FORMAT_MONTH = "MMMM"
+        private const val TIME_FORMAT_YEAR = "yyyy"
     }
 
     init {
@@ -122,6 +123,11 @@ class CalenderMonthListViewFactory(private val context: Context, intent: Intent)
         return dateFormat.format(entry.time)
     }
 
+    private fun formatEventYear(entry: DeviceCalendarProvider.Event): String {
+        val dateFormat = SimpleDateFormat(TIME_FORMAT_YEAR, Locale.UK)
+        return dateFormat.format(entry.time)
+    }
+
 
     private fun loadCalendarEntries() {
         if (!calendar.hasPermission()) {
@@ -150,20 +156,25 @@ class CalenderMonthListViewFactory(private val context: Context, intent: Intent)
 
     private fun groupByMonth(rawEvents: List<DeviceCalendarProvider.Event>): List<ListEntry> {
 
-        val groupedByMonth: Map<String, List<DeviceCalendarProvider.Event>> = rawEvents.groupBy {
-            formatEventMonth(it)
-        }
+        val groupedByYear = rawEvents.groupBy(this::formatEventYear)
 
-        return groupedByMonth.keys.map { month ->
-            val monthEvents = groupedByMonth.getValue(month)
+        val groupedByMonth: Map<String, List<DeviceCalendarProvider.Event>> = rawEvents.groupBy(this::formatEventMonth)
 
-            val elements = monthEvents.map { e ->
-                ListEntry(e, "")
-            }
+        return groupedByYear.keys.map { year ->
+            val ev = groupedByYear.getValue(year)
 
-            listOf(
-                    ListEntry(null, month)
-            ).plus(elements)
+            ev.groupBy(this::formatEventMonth).keys.map { month ->
+                val monthEvents = groupedByMonth.getValue(month)
+
+                val elements = monthEvents.map { e ->
+                    ListEntry(e, "")
+                }
+
+                listOf(
+                        ListEntry(null, month)
+                ).plus(elements)
+            }.flatten()
+
         }.flatten()
     }
 
